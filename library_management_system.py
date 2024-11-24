@@ -68,11 +68,12 @@ class Graph:
         if node1 not in self.graph:
             self.graph[node1] = []
         if node2 not in self.graph:
-             self.graph[node2] = []
+            self.graph[node2] = []
         if node2 not in self.graph[node1]:
             self.graph[node1].append(node2)
         if node1 not in self.graph[node2]:
             self.graph[node2].append(node1)
+
 
 class Book:
     def __init__(self, title, author, genre):
@@ -135,7 +136,8 @@ class LibraryManager:
             print(f"Book '{title}' borrowed by user '{user.name}'.")
         else:
             book.waitlist.enqueue(user)
-            print(f"Book '{title}' is unavailable. User '{user.name}' added to waitlist.")
+            print(f"Book '{title}' is unavailable. User '{
+                  user.name}' added to waitlist.")
 
     def return_book(self, user_id, title):
         book = self.books.get(title)
@@ -163,20 +165,22 @@ class LibraryManager:
         if action:
             user, book = action
             if not book.available:
-                print(f"Book '{book.title}' is already borrowed by another user.")
+                print(
+                    f"Book '{book.title}' is already borrowed by another user.")
             else:
                 book.available = False
                 user.borrowed_books.add(book)
-                print(f"Undo return: Book '{book.title}' re-borrowed by user '{user.name}'.")
+                print(f"Undo return: Book '{
+                      book.title}' re-borrowed by user '{user.name}'.")
         else:
             print("No action to undo.")
-            
+
     def recommend_books(self, user_id):
         user = self.users.get(user_id)
         if not user:
             print(f"User with ID '{user_id}' not found.")
             return []
-        recommendations =[]
+        recommendations = []
         seen_genres = set()
         for borrowed_book in user.borrowed_books:
             genre = borrowed_book.genre
@@ -184,6 +188,6 @@ class LibraryManager:
                 seen_genres.add(genre)
                 recommendations.extend(self.author_graph.graph.get(genre, []))
 
-        
-        recommendations = [rec for rec in recommendations if rec != borrowed_book.genre]
+        recommendations = [
+            rec for rec in recommendations if rec != borrowed_book.genre]
         return list(set(recommendations))
